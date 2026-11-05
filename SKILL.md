@@ -8,6 +8,7 @@ description: >-
   mid yellow-capsule A alternate; master PNG + Douyin 1080×1440 JPG upload pack)
   + PUBLISH.md captions A/B/C + GitHub Release (2K asset) + Pages 看片/下载 links.
   Justin 2026-11-05: default 2K only; stop producing 4K unless explicitly asked.
+  Viewport media priority: topic demo/short video first, then official stills with motion, else self-made graphics (§3c).
 metadata:
   short-description: Professional 2K tech news video + covers + Pages/Release
 ---
@@ -70,6 +71,14 @@ Produce high-density, authoritative technology news and breakdown videos for fro
 - 画面中央叠十字准星 / 圆环瞄准器 / focus-box / scanline（Justin：从技能删除，禁止再出）
 
 黄金对照：**外框** = 模板脚手架；**不要**对照旧 Space Bunny 的中央瞄准器。
+
+
+### 3c. 视口素材优先级（Justin 2026-11-05 · 硬约束）
+中间 `.pagecam` **必须按下列顺序选材**，不得跳级用劣质替代：
+1. **优先：主题官方/一手视频短片、产品 demo、发布会切片、案例对比 GIF/MP4**（能嵌就嵌；裁切进视口，保留可读关键内容）。这是吸引阅读的主画面，不是装饰。
+2. **其次：官方截图、报告页、UI、评测图**——做成短动效（缓推/平移/切镜），**禁止七拍共用同一张静帧硬推 Ken Burns**。
+3. **再不行：自创示意图/信息图**（须标注或能在 SOURCES 说清是自制），仍须每拍不同、服务旁白事实。
+**禁止**：无主题相关的库存空镜、无关风景、纯抽象噪点当主画面；禁止「有静帧就交差」却跳过可下载的官方 demo。`SOURCES.md` 须写明每拍素材 URL 或自制说明；`STATUS.md` 勾选本条优先级。
 
 
 ### 4. 底部「两行中文解说 + 双指标卡」（默认；禁止卡墙）
@@ -186,7 +195,7 @@ Beat 01 Hook → 02 指标 → 03 官方/生态 → 04 机制 → 05 边界 → 
 **默认成片规格（Justin 2026-11-05）**：**真 2K 竖屏 1440×2560 only**。**停止生产 4K**（勿渲染/勿上传/勿在 Pages 链 4K），除非 Justin 本条明文再要。
 
 1. **旁白审稿通过**（narration_editorial 清单已勾进 STATUS）
-2. **视频**：竖屏 **真 2K（1440×2560）** + **旁白 + 可听见的 BGM**（`#music`≈0.40）；抽听顺耳；画面含 **EN 主标 + `.headline-zh` 中文对照** + **两行解说 + 双卡**。输出路径约定：`outputs/<suite>_2k.mp4`。
+2. **视频**：竖屏 **真 2K（1440×2560）** + **旁白 + 可听见的 BGM**（`#music`≈0.40）；抽听顺耳；画面含 **EN 主标 + `.headline-zh` 中文对照** + **两行解说 + 双卡**；视口素材遵守 **§3c 优先级**（主题 demo/短片 → 截图动效 → 自创图）。输出路径约定：`outputs/<suite>_2k.mp4`。
 3. **封面**：B（Hypebeast 主推）+ A（黄胶囊备选）：**母版 PNG** + **抖音 1080×1440 JPG 上传包**（缺 JPG = 未完成）；聊天气泡优先附 B
 4. **描述**：`PUBLISH.md` A/B/C
 5. **信源**：`SOURCES.md`
@@ -196,7 +205,7 @@ Beat 01 Hook → 02 指标 → 03 官方/生态 → 04 机制 → 05 边界 → 
 
 **STATUS.md 备注模板（画像向）**：写明 `Composition/Deliverable: 1440×2560 true 2K · no 4K unless Justin asks`；勾旁白审稿；记 `Release:` 与 `Pages:` URL。
 
-缺旁白审稿 / 旁白吃力 / 缺音轨 / BGM 过小听不见 / 缺封面母版或 **缺抖音 JPG 上传包** / 缺文案 / 缺中文对照 / 未入选题库 / **未建 Release 或未挂 2K / Pages 无看片下载或无国内加速链（加速+备用+原链）** = 未完成。
+缺旁白审稿 / 旁白吃力 / 缺音轨 / BGM 过小听不见 / 缺封面母版或 **缺抖音 JPG 上传包** / 缺文案 / 缺中文对照 / **视口未按 §3c 优先嵌主题 demo（有官方短片却只用静帧）** / 未入选题库 / **未建 Release 或未挂 2K / Pages 无看片下载或无国内加速链（加速+备用+原链）** = 未完成。
 
 ## 九、导出给 WorkBuddy / Codex / Gemini（便携包）
 
@@ -207,6 +216,6 @@ Beat 01 Hook → 02 指标 → 03 官方/生态 → 04 机制 → 05 边界 → 
 2. **旧包（≤2026-11-02）** 未写死「默认必带框」与场景节点清单
 3. 封面技能仍指向本机绝对路径（如 `/workspace/opus_video_demos/...`）而包内已有 `templates/cover_*.html` —— 便携包必须用相对路径
 4. 未按默认交付 **真 2K（1440×2560）**（却去交/挂 4K，或只剩 1080p），或 BGM 音量被压到 ~0.2，或旁白跳过 YunyangNeural / 审稿；或忘了 Release+Pages 看片链接
-5. 中间视口七拍复用同一张静帧 Ken Burns，而不是每拍不同一手素材
+5. 跳过可拿到的主题 demo/短片，七拍复用同一张静帧 Ken Burns（违反 §3c）
 
 验收：任意一拍截帧应能看到**顶栏字 + 四角包角 + 圆角描边**；对不上就按 §3 / §3b 重出，不要交付。
