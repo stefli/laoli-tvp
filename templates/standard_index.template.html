@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, height=1920">
+  <meta name="od-motion-output" content="video">
+  <meta name="od-motion-audio" content="required">
+  <link rel="alternate" type="video/mp4" href="./{{SUITE_SLUG}}_4k.mp4">
+  <title>{{TITLE}} · 4K 科技播报</title>
+  <script src="./assets/gsap.min.js"></script>
+  <style>
+    :root {
+      --ink: #05070a;
+      --paper: #f8fafc;
+      --ash: #cfd8e3;
+      --gray: #94a3b8;
+      --theme-color: {{THEME_COLOR}};
+      --hazard-yellow: #facc15;
+      --alert-red: #ef4444;
+      --neon-cyan: #00e5ff;
+      --steel: #334155;
+      --border: rgba(148, 163, 184, 0.28);
+      --display: "Bahnschrift", "DIN Alternate", sans-serif;
+      --cjk: "Microsoft YaHei", "PingFang SC", sans-serif;
+      --mono: "Cascadia Mono", "Consolas", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+    body { color: var(--paper); font-family: var(--cjk); -webkit-font-smoothing: antialiased; }
+    #main { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+
+    .theme-backdrop {
+      position: absolute; inset: -40px;
+      background: url("./assets/{{HERO_IMG}}") center center / cover no-repeat;
+      opacity: 0.12;
+      filter: blur(24px) saturate(1.3) brightness(0.85);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .tech-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 50% 16%, {{THEME_COLOR_ALPHA}} 0%, transparent 58%),
+        radial-gradient(circle at 50% 86%, rgba(0, 229, 255, 0.12) 0%, transparent 64%),
+        rgba(5, 7, 10, 0.88);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .grid-mesh {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(207,216,227,0.032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(207,216,227,0.032) 1px, transparent 1px);
+      background-size: 60px 60px; pointer-events: none; z-index: 3;
+    }
+    .scene { position: absolute; inset: 0; overflow: hidden; z-index: 5; visibility: hidden; }
+    .transition-sweep {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent 0%, var(--theme-color) 50%, transparent 100%);
+      box-shadow: 0 0 20px var(--theme-color);
+      opacity: 0; pointer-events: none; z-index: 35;
+    }
+
+    /* === 1. TOP TITLE: ALL-CAPS EN + .headline-zh Chinese对照 (NO ZH as main headline) === */
+    .upper-section {
+      position: absolute;
+      top: 220px;
+      left: 64px;
+      right: 64px;
+      max-height: 280px;
+      z-index: 20;
+    }
+    .headline {
+      font-family: var(--display);
+      font-size: 84px;
+      font-weight: 700;
+      line-height: 0.94;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .headline span { color: var(--theme-color); }
+    .headline span.yellow { color: var(--hazard-yellow); }
+    .headline span.cyan { color: var(--neon-cyan); }
+    .headline span.danger { color: var(--alert-red); }
+    /* ZH对照 under EN headline — default */
+    .headline-zh {
+      margin-top: 14px;
+      font-family: var(--cjk);
+      font-size: 44px;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      color: rgba(207, 216, 227, 0.92);
+    }
+
+    /* === 2. CENTRAL VIEWPORT: 4 CORNER HARDWARE ACCENTS (MUST KEEP chrome unless user says drop HUD) === */
+    .central-viewport {
+      position: absolute;
+      top: 500px;
+      left: 64px;
+      right: 64px;
+      height: 460px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.96) 0%, rgba(9, 13, 22, 0.98) 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow:
+        0 25px 70px rgba(0,0,0,0.92),
+        0 0 40px rgba(59, 130, 246, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      z-index: 10;
+    }
+    .corner-bracket {
+      position: absolute; width: 14px; height: 14px; pointer-events: none; z-index: 25;
+    }
+    .corner-tl { top: 0; left: 0; border-top: 3px solid var(--theme-color); border-left: 3px solid var(--theme-color); }
+    .corner-tr { top: 0; right: 0; border-top: 3px solid var(--theme-color); border-right: 3px solid var(--theme-color); }
+    .corner-bl { bottom: 0; left: 0; border-bottom: 3px solid var(--theme-color); border-left: 3px solid var(--theme-color); }
+    .corner-br { bottom: 0; right: 0; border-bottom: 3px solid var(--theme-color); border-right: 3px solid var(--theme-color); }
+
+    .central-viewport::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 46px;
+      background: rgba(30, 41, 59, 0.94); border-bottom: 1px solid rgba(148, 163, 184, 0.28); z-index: 12;
+    }
+    .viewport-header {
+      position: absolute; top: 11px; left: 20px; right: 20px; z-index: 15;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 21px; letter-spacing: 0.10em; color: var(--ash);
+    }
+    .viewport-header .dots { display: flex; gap: 8px; align-items: center; }
+    .viewport-header .dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(207,216,227,0.3); display: block; }
+    .viewport-header .dots i.active { background: var(--theme-color); box-shadow: 0 0 10px var(--theme-color); }
+
+    .media {
+      position: absolute; top: 46px; left: 0; width: 100%; height: calc(100% - 46px);
+      object-fit: cover; background: #020617;
+    }
+
+    /* === 3. LOWER: 2-line 38px ZH narrative + exactly 2 spec cards (no card wall) === */
+    .lower-section {
+      position: absolute;
+      top: 1048px;
+      left: 64px;
+      right: 64px;
+      z-index: 20;
+    }
+    .narrative {
+      font-size: 38px;
+      line-height: 1.38;
+      font-weight: 350;
+      color: var(--ash);
+      margin-bottom: 22px;
+    }
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .spec-item {
+      background: rgba(15,23,42,0.92);
+      border: 1px solid var(--border);
+      padding: 14px 20px;
+      border-radius: 6px;
+    }
+    .spec-item .label { display: block; margin-bottom: 5px; font-size: 21px; font-family: var(--mono); color: var(--gray); text-transform: uppercase; }
+    .spec-item .val { font-family: var(--display); font-size: 50px; font-weight: 700; color: var(--paper); line-height: 1; }
+    .spec-item .val.highlight { color: var(--theme-color); }
+
+    audio { display: none; }
+  </style>
+</head>
+<body>
+<div id="main" data-composition-id="main" data-start="0" data-duration="{{DURATION}}"
+     data-width="1080" data-height="1920" data-fps="30" data-poster-time="0.04">
+  <div class="theme-backdrop"></div>
+  <div class="tech-bg"></div>
+  <div class="grid-mesh"></div>
+  <div class="transition-sweep" id="sweep"></div>
+
+
+  <!-- === MANDATORY SCENE SCAFFOLD (copy ×7; outer chrome only — NO aiming reticle) ===
+  <section class="scene" id="s1">
+    <div class="upper-section">
+      <div class="headline">EN LINE ONE.<br><span>EN LINE TWO.</span></div>
+      <div class="headline-zh">八到十四字中文对照</div>
+    </div>
+    <div class="central-viewport">
+      <div class="corner-bracket corner-tl"></div>
+      <div class="corner-bracket corner-tr"></div>
+      <div class="corner-bracket corner-bl"></div>
+      <div class="corner-bracket corner-br"></div>
+      <div class="viewport-header" data-layout-ignore>
+        <span>BRAND // TOPIC · BEAT LABEL</span>
+        <div class="dots"><i class="active"></i><i></i></div>
+      </div>
+      <div class="pagecam" id="pagecam-s1">
+        <img class="media" src="./assets/beat01.jpg" alt="">
+        <!-- or <video class="media" src="./assets/beat01.mp4" muted playsinline></video> -->
+      </div>
+    </div>
+    <div class="lower-section" data-hold>
+      <div class="narrative">两行中文解说，约五十五到七十五字，补未上卡硬事实。</div>
+      <div class="spec-grid">
+        <div class="spec-item"><span class="label" data-layout-ignore>LABEL</span><span class="val highlight">VALUE</span></div>
+        <div class="spec-item"><span class="label" data-layout-ignore>LABEL</span><span class="val">VALUE</span></div>
+      </div>
+    </div>
+  </section>
+  === END SCAFFOLD — keep corner-bracket / viewport-header / pagecam top:46px; NEVER add hud-reticle / crosshair / focus-box / scan === -->
+
+  <!-- SCENES 1 - 7 GO HERE (paste scaffold above; never invent border:none full-bleed) -->
+
+</div>
+</body>
+</html>

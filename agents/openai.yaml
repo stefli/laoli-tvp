@@ -1,0 +1,6 @@
+interface:
+  display_name: Tech Video Producer
+  short_description: Produce high-density technology blog & news videos with HyperFrames
+  default_prompt: Produce a professional technology news video breakdown for this announcement.
+policy:
+  allow_implicit_invocation: true
