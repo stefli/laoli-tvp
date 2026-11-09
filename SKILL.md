@@ -8,7 +8,7 @@ description: >-
   mid yellow-capsule A alternate; master PNG + Douyin 1080×1440 JPG upload pack)
   + PUBLISH.md captions A/B/C + GitHub Release (2K asset) + Pages 看片/下载 links.
   Justin 2026-11-05: default 2K only; stop producing 4K unless explicitly asked.
-  Viewport media priority: topic demo/short video first, then official stills with motion, else self-made graphics (§3c).
+  Viewport media priority: topic demo/short video first, then official stills with motion, else self-made graphics (§3c). Beat 01 MUST open on the most eye-catching topic demo video clip (never a still/screenshot Ken Burns).
 metadata:
   short-description: Professional 2K tech news video + covers + Pages/Release
 ---
@@ -80,6 +80,8 @@ Produce high-density, authoritative technology news and breakdown videos for fro
 3. **再不行：自创示意图/信息图**（须标注或能在 SOURCES 说清是自制），仍须每拍不同、服务旁白事实。
 **禁止**：无主题相关的库存空镜、无关风景、纯抽象噪点当主画面；禁止「有静帧就交差」却跳过可下载的官方 demo。`SOURCES.md` 须写明每拍素材 URL 或自制说明；`STATUS.md` 勾选本条优先级。
 
+**Beat 01 开场硬约束（Justin 2026-11-07）**：第一拍视口**必须**用全片里最抓眼的主题相关**视频短片**（游戏前端 / UI 实操 / 产品 demo mp4 等）开场吸睛，标题叠在这段实拍上；**禁止**用用量截图、报表静帧、Ken Burns 静图当 Hook。有多段 demo 时，把最炫的那段放到拍 01（可与后拍复用不同入点）；证据类静帧放到拍 02+。违反本条 = 未完成，须重渲。
+
 
 ### 4. 底部「两行中文解说 + 双指标卡」（默认；禁止卡墙）
 - `.lower-section` 默认 **`top: 1048px`**（可在 `1008–1060` 微调）；内容底须 **&lt; 1360px**；**`1380–1920px` 平台控件区必须留白**。
@@ -112,7 +114,7 @@ projects/<suite_name>/
 
 ## 三、通用 7 拍叙事（48s–53s）
 
-Beat 01 Hook → 02 指标 → 03 官方/生态 → 04 机制 → 05 边界 → 06 涟漪 → 07 终局。
+Beat 01 Hook（**最抓眼 demo 视频开场**，禁静帧）→ 02 指标 → 03 官方/生态 → 04 机制 → 05 边界 → 06 涟漪 → 07 终局。
 
 ---
 
@@ -205,7 +207,7 @@ Beat 01 Hook → 02 指标 → 03 官方/生态 → 04 机制 → 05 边界 → 
 
 **STATUS.md 备注模板（画像向）**：写明 `Composition/Deliverable: 1440×2560 true 2K · no 4K unless Justin asks`；勾旁白审稿；记 `Release:` 与 `Pages:` URL。
 
-缺旁白审稿 / 旁白吃力 / 缺音轨 / BGM 过小听不见 / 缺封面母版或 **缺抖音 JPG 上传包** / 缺文案 / 缺中文对照 / **视口未按 §3c 优先嵌主题 demo（有官方短片却只用静帧）** / 未入选题库 / **未建 Release 或未挂 2K / Pages 无看片下载或无国内加速链（加速+备用+原链）** = 未完成。
+缺旁白审稿 / 旁白吃力 / 缺音轨 / BGM 过小听不见 / 缺封面母版或 **缺抖音 JPG 上传包** / 缺文案 / 缺中文对照 / **视口未按 §3c 优先嵌主题 demo（有官方短片却只用静帧）** / **拍 01 未用最抓眼 demo 视频开场（用了静帧/用量图）** / 未入选题库 / **未建 Release 或未挂 2K / Pages 无看片下载或无国内加速链（加速+备用+原链）** = 未完成。
 
 ## 九、导出给 WorkBuddy / Codex / Gemini（便携包）
 
